@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block custom_head_css_js %}
+<style>
+    .active{
+        color: black;
+    }
+    .pagenation{
+        margin-left: 80%;
+    }
+    .pagenation a{
+        font-size: 18px;
+    }
+    td{
+        text-align: center;
+        vertical-align: middle!important;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <table class="table table-bordered">
+       <tbody>
+       <!--<ul class="book_type_list clearfix">-->
+            {% for book in books_li %}
+                  <tr>
+                      <td style="text-align: center">主机名为{{ book.hostname }}</td>
+                      <td style="text-align: center">IP为：{{ book.ip }}</td>
+                      <td><a href="{% url 'machine:sysinfo' machine_id=book.hostname  %}" class="btn btn-default">服务器系统信息</a></td>
+                    <td><a href="{% url 'machine:lanxi' machine_id=book.hostname  %}" class="btn btn-default">蓝信系统信息</a></td>
+
+                  </tr>
+				{% endfor %}
+			<!--</ul>-->
+        </tbody>
+    </table>
+
+			<div class="pagenation">
+                {% if books_li.has_previous %}
+				    <a href="/machine/list/{{ books_li.previous_page_number }}/"><上一页</a>
+                {% endif %}
+                {% for pindex in pages %}
+                    {% if pindex == books_li.number %}
+                        <a href="/machine/list/{{ pindex }}/" class="active">{{ pindex }}</a>
+                    {% else %}
+                        <a href="/machine/list/{{ pindex }}/">{{ pindex }}</a>
+                    {% endif %}
+                {% endfor %}
+                {% if books_li.has_next %}
+				    <a href="/machine/list/{{ books_li.next_page_number }}/">下一页></a>
+                {% endif %}
+			</div>
+
+
+{% endblock %}

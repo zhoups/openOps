@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <h2 style="text-align:center">服务器的蓝信服务信息</h2>
+    <table class="table table-bordered">
+       <tbody>
+       <tr>
+           <th>蓝信服务</th>
+           <th>服务版本</th>
+           <th>状态</th>
+           <th  colspan="3" style="text-align:center">操作</th>
+       </tr>
+
+              <tr>
+                  <td></td>
+                  <td></td>
+                        <td>正在运行</td>
+
+                        <td>停止运行</td>
+
+                        <td><button class="btn btn-danger btn-sm" onclick="location='/lxinfoupdate/{{ip}}/{{temp}}'">更新</button></td>
+
+                        <td><button disabled="disabled" >更新</button></td>
+
+                  <td><button onclick="location='/lxinforestart/{{ip}}/{{temp}}'">重启</button></td>
+                  <td><button onclick="location='/lxinfostop/{{ip}}/{{temp}}'">停止</button></td>
+              </tr>
+
+       </tbody>
+    </table>
+{% endblock %}

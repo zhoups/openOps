@@ -1,0 +1,289 @@
+{% extends 'base.html' %}
+
+{% block custom_head_css_js %}
+<style type="text/css">
+            #cpu{
+                width: 50%;
+                height: 300px;
+                float:left;
+
+            }
+
+            #disk{
+                width: 50%;
+                height: 300px;
+                float:left;
+            }
+
+            #memory{
+                width: 50%;
+                height: 250px;
+                float:left;
+                clear:left;
+                          background-color: silver;
+
+            }
+
+            #network {
+                width: 50%;
+                height: 250px;
+                float:left;
+                          background-color: silver;
+
+            }
+
+          /*  div.aa{
+                float:left;
+                width:40%;
+                height: 300px;
+            }*/
+    </style>
+{% endblock %}
+
+{% block content %}
+<h2 style="text-align:center">服务器的系统信息</h2>
+<!--<div class="aa"><div id="cpu" ></div></div>
+<div class="aa"><div id="disk"></div></div>
+<div class="aa"><div id="memory"></div></div>
+<div class="aa"> <div id="network"></div></div>-->
+    <div id="cpu" ></div>
+    <div id="disk"></div>
+    <div id="memory"></div>
+    <div id="network"></div>
+
+<script type="text/javascript">
+    var a = []
+    {% for i in xdata.cpu %}
+        console.log({{ i }})
+        a.push({{ i }})
+    {% endfor %}
+    var b = []
+    {% for i in ydata %}
+        console.log('{{ i }}')
+        b.push('{{ i }}')
+    {% endfor %}
+    var c = []
+    {% for i in xdata.memory %}
+        console.log('{{ i }}')
+        c.push('{{ i }}')
+    {% endfor %}
+    var d = []
+    {% for i in xdata.disk %}
+        console.log('{{ i }}')
+        d.push('{{ i }}')
+    {% endfor %}
+    var e = []
+    {% for i in xdata.network.Net_sent %}
+        console.log('{{ i }}')
+        e.push('{{ i }}')
+    {% endfor %}
+     var f = []
+    {% for i in xdata.network.Net_recv %}
+        console.log('{{ i }}')
+        f.push('{{ i }}')
+    {% endfor %}
+    var cpuChart = echarts.init(document.getElementById('cpu'));
+    cpuoption = {
+    tooltip : {
+        trigger: 'axis'
+    },
+    legend: {
+        data:['cpu使用率']
+    },
+    calculable : true,
+    xAxis : [
+        {
+            type : 'category',
+            boundaryGap : false,
+            data : b
+        }
+    ],
+    yAxis : [
+        {
+            type : 'value',
+            axisLabel : {
+                formatter: '{value} %'
+            }
+        }
+    ],
+    series : [
+        {
+            name: 'cpu使用率',
+            type: 'line',
+            data: a,
+        markPoint: {
+            data: [
+                {type: 'max', name: '最大值'},
+                {type: 'min', name: '最小值'}
+            ]
+        },
+        markLine: {
+            data: [
+                {type: 'average', name: '平均值'}
+            ]
+        }
+    },
+    ]
+    };
+    cpuChart.setOption(cpuoption);
+    cpuChart.hideLoading();
+
+                var diskChart = echarts.init(document.getElementById('disk'));
+                memoryoption = {
+    tooltip : {
+        trigger: 'axis'
+    },
+legend: {
+        data:['disk使用率']
+    },
+    calculable : true,
+    xAxis : [
+        {
+            type : 'category',
+            boundaryGap : false,
+            data : b
+        }
+    ],
+    yAxis : [
+        {
+            type : 'value',
+            axisLabel : {
+                formatter: '{value} %'
+            }
+        }
+    ],
+    series : [
+        {
+            name: 'disk使用率',
+            type: 'line',
+            data: d,
+        markPoint: {
+            data: [
+                {type: 'max', name: '最大值'},
+                {type: 'min', name: '最小值'}
+            ]
+        },
+        markLine: {
+            data: [
+                {type: 'average', name: '平均值'}
+            ]
+        }
+    },
+    ]
+    };
+
+                diskChart.setOption(memoryoption);
+    var memoryChart = echarts.init(document.getElementById('memory'));
+                memoryoption = {
+    tooltip : {
+        trigger: 'axis'
+    },
+    legend: {
+        data:['memory使用率']
+    },
+    calculable : true,
+    xAxis : [
+        {
+            type : 'category',
+            boundaryGap : false,
+            data : b
+        }
+    ],
+    yAxis : [
+        {
+            type : 'value',
+            axisLabel : {
+                formatter: '{value} %'
+            }
+        }
+    ],
+    series : [
+        {
+            name: 'memory使用率',
+            type: 'line',
+            data: c,
+        markPoint: {
+            data: [
+                {type: 'max', name: '最大值'},
+                {type: 'min', name: '最小值'}
+            ]
+        },
+        markLine: {
+            data: [
+                {type: 'average', name: '平均值'}
+            ]
+        }
+    },
+    ]
+    };
+
+    memoryChart.setOption(memoryoption);
+    var networkChart = echarts.init(document.getElementById('network'));
+   networkoption = {
+
+    tooltip : {
+        trigger: 'axis'
+    },
+legend: {
+        data:['输出','输入']
+    },
+    calculable : true,
+    xAxis : [
+        {
+            type : 'category',
+            boundaryGap : false,
+            data : b
+        }
+    ],
+    yAxis : [
+        {
+            type : 'value',
+            axisLabel : {
+                formatter: '{value} b/s'
+            }
+        }
+    ],
+    series : [
+        {
+            name:'输出',
+            type:'line',
+            data:f,
+            markPoint : {
+                data : [
+                    {type : 'max', name: '最大值'},
+                    {type : 'min', name: '最小值'}
+                ]
+            },
+            markLine : {
+                data : [
+                    {type : 'average', name: '平均值'}
+                ]
+            }
+        },
+        {
+            name:'输入',
+            type:'line',
+            data:e,
+            markPoint : {
+                data : [
+                    {name : '周最低', value : -2, xAxis: 1, yAxis: -1.5}
+                ]
+            },
+            markLine : {
+                data : [
+                    {type : 'average', name : '平均值'}
+                ]
+            }
+        }
+    ]
+    };
+networkChart.setOption(networkoption);
+    function hello(){
+     /*$.get('/machine/list/',function (e) {
+
+        });*/
+     location.reload()
+    }
+    setTimeout(hello,60000);
+</script>
+{% endblock %}
